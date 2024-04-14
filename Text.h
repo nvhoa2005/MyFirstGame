@@ -9,12 +9,11 @@ public:
     Text();
     ~Text();
 
-    bool LoadText(TTF_Font*, SDL_Renderer*);
+    void RenderText(TTF_Font*, SDL_Renderer*, int x, int y);
     void Free();
 
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 
-    void RenderText(SDL_Renderer* screen, int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
     int GetWidth() const{
         return width;
     }

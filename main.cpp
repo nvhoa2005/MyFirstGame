@@ -161,12 +161,10 @@ int main(int argc, char* argv[])
         str_point += point_val;
 
         time_game.SetText(str_time);
-        time_game.LoadText(font, g_screen);
-        time_game.RenderText(g_screen, SCREEN_WIDTH-160, 15);
+        time_game.RenderText(font, g_screen, SCREEN_WIDTH-160, 15);
 
         point_game.SetText(str_point);
-        point_game.LoadText(font, g_screen);
-        point_game.RenderText(g_screen, 60, 15);
+        point_game.RenderText(font, g_screen, 60, 15);
 
         check = player.get_game_over();
         if(check == true){

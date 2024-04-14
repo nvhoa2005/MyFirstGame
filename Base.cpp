@@ -29,9 +29,9 @@ bool Base::Load_image(string path, SDL_Renderer* screen){
 }
 
 void Base::Render(SDL_Renderer* des, const SDL_Rect* clip){
-    SDL_Rect renderquad = {rect.x, rect.y, rect.w, rect.h};
+    SDL_Rect dest = {rect.x, rect.y, rect.w, rect.h};
 
-    SDL_RenderCopy(des, p_object, clip, &renderquad);
+    SDL_RenderCopy(des, p_object, clip, &dest);
 }
 
 void Base::Free(){

@@ -7,7 +7,7 @@ ShowMenu::~ShowMenu(){
 
 }
 
-bool ShowMenu::CheckMouseInOut(const int &x, const int &y, const int& a, const int&b)
+bool ShowMenu::CheckMouse(const int &x, const int &y, const int& a, const int&b)
 {
     if(x >= a && x <= a + WIDTH_TEXT && y >= b && y <= b + HEIGHT_TEXT){
         return true;
@@ -32,18 +32,15 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
     menuText[1].SetText(s2);
     menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[2].SetText(s3);
-    bool selected[3] = {0, 0, 0};
+    bool check[3] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
         Base::Render(des, NULL);
-        menuText[0].LoadText(font, des);
-        menuText[0].RenderText(des, 200, 390);
-        menuText[1].LoadText(font, des);
-        menuText[1].RenderText(des, 50, 150);
-        menuText[2].LoadText(font, des);
-        menuText[2].RenderText(des, 200, 450);
+        menuText[0].RenderText(font, des, 200, 390);
+        menuText[1].RenderText(font, des, 50, 150);
+        menuText[2].RenderText(font, des, 200, 450);
 
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -53,25 +50,25 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
                     x = event.motion.x;
                     y = event.motion.y;
 
-                    if(CheckMouseInOut(x, y, 200, 390)){
-                        if(selected[0] == false){
-                            selected[0] == true;
+                    if(CheckMouse(x, y, 200, 390)){
+                        if(check[0] == false){
+                            check[0] == true;
                             menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[0] == false;
+                        check[0] == false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
-                    if(CheckMouseInOut(x, y, 200, 450)){
-                        if(selected[2] == false){
-                            selected[2] == true;
+                    if(CheckMouse(x, y, 200, 450)){
+                        if(check[2] == false){
+                            check[2] == true;
                             menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[2] == false;
+                        check[2] == false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -81,10 +78,10 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
                         x = event.button.x;
                         y = event.button.y;
 
-                        if(CheckMouseInOut(x, y, 200, 390)){
+                        if(CheckMouse(x, y, 200, 390)){
                             return START_GAME;
                         }
-                        if(CheckMouseInOut(x, y, 200, 450)){
+                        if(CheckMouse(x, y, 200, 450)){
                             return EXIT_GAME;
                         }
 
@@ -121,18 +118,15 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
     menuText[1].SetText(s2);
     menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[2].SetText(s3);
-    bool selected[3] = {0, 0, 0};
+    bool check[3] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
         Base::Render(des, NULL);
-        menuText[0].LoadText(font, des);
-        menuText[0].RenderText(des, 200, 400);
-        menuText[1].LoadText(font, des);
-        menuText[1].RenderText(des, 200, 460);
-        menuText[2].LoadText(font, des);
-        menuText[2].RenderText(des, 200, 520);
+        menuText[0].RenderText(font, des, 200, 400);
+        menuText[1].RenderText(font, des, 200, 460);
+        menuText[2].RenderText(font, des, 200, 520);
         while(SDL_PollEvent(&event)){
             switch(event.type){
                 case SDL_QUIT:
@@ -141,36 +135,36 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
                     x = event.motion.x;
                     y = event.motion.y;
 
-                    if(CheckMouseInOut(x, y, 200, 400)){
-                        if(selected[0] == false){
-                            selected[0] == true;
+                    if(CheckMouse(x, y, 200, 400)){
+                        if(check[0] == false){
+                            check[0] == true;
                             menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[0] == false;
+                        check[0] == false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
-                    if(CheckMouseInOut(x, y, 200, 460)){
-                        if(selected[1] == false){
-                            selected[1] == true;
+                    if(CheckMouse(x, y, 200, 460)){
+                        if(check[1] == false){
+                            check[1] == true;
                             menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[1] == false;
+                        check[1] == false;
                         menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
-                    if(CheckMouseInOut(x, y, 200, 520)){
-                        if(selected[2] == false){
-                            selected[2] == true;
+                    if(CheckMouse(x, y, 200, 520)){
+                        if(check[2] == false){
+                            check[2] == true;
                             menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[2] == false;
+                        check[2] == false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -180,14 +174,14 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
                         x = event.button.x;
                         y = event.button.y;
 
-                        if(CheckMouseInOut(x, y, 200, 400)){
+                        if(CheckMouse(x, y, 200, 400)){
                             return START_GAME;
                         }
-                        if(CheckMouseInOut(x, y, 200, 460)){
+                        if(CheckMouse(x, y, 200, 460)){
                             int tmp = showHowToPlay(des, font, "img//backgroundhowtoplay.jpg", sound);
                             return tmp;
                         }
-                        if(CheckMouseInOut(x, y, 200, 520)){
+                        if(CheckMouse(x, y, 200, 520)){
                             return EXIT_GAME;
                         }
 
@@ -230,21 +224,17 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
     menuText[0].SetText(s1);
     menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[2].SetText(s3);
-    bool selected[3] = {0, 0, 0};
+    bool check[3] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
         Base::Render(des, NULL);
-        menuText[0].LoadText(font, des);
-        menuText[0].RenderText(des, 200, 400);
-        menuText[2].LoadText(font, des);
-        menuText[2].RenderText(des, 200, 460);
+        menuText[0].RenderText(font, des, 200, 400);
+        menuText[2].RenderText(font, des, 200, 460);
 
-        yourPoint.LoadText(font, des);
-        yourPoint.RenderText(des, 680, 310);
-        record.LoadText(font, des);
-        record.RenderText(des, 680, 380);
+        yourPoint.RenderText(font, des, 680, 310);
+        record.RenderText(font, des, 680, 380);
 
         while(SDL_PollEvent(&event)){
             switch(event.type){
@@ -254,25 +244,25 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                     x = event.motion.x;
                     y = event.motion.y;
 
-                    if(CheckMouseInOut(x, y, 200, 400)){
-                        if(selected[0] == false){
-                            selected[0] == true;
+                    if(CheckMouse(x, y, 200, 400)){
+                        if(check[0] == false){
+                            check[0] == true;
                             menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[0] == false;
+                        check[0] == false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
-                    if(CheckMouseInOut(x, y, 200, 460)){
-                        if(selected[2] == false){
-                            selected[2] == true;
+                    if(CheckMouse(x, y, 200, 460)){
+                        if(check[2] == false){
+                            check[2] == true;
                             menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        selected[2] == false;
+                        check[2] == false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -282,10 +272,10 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                         x = event.button.x;
                         y = event.button.y;
 
-                        if(CheckMouseInOut(x, y, 200, 400)){
+                        if(CheckMouse(x, y, 200, 400)){
                             return START_GAME;
                         }
-                        if(CheckMouseInOut(x, y, 200, 460)){
+                        if(CheckMouse(x, y, 200, 460)){
                             return EXIT_GAME;
                         }
 
