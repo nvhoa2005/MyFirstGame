@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1712983373 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\base.cpp
+	"Base.h"
+
+1712981125 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\function.cpp
+	"Function.h"
+
+1713101875 c:\users\hoa\onedrive\documents\code block\game\firstgame\function.h
+	<bits/stdc++.h>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<SDL_mixer.h>
+
+1713098067 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\main.cpp
+
+1713097569 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\map.cpp
+	"Map.h"
+
+1713102798 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\menu.cpp
+	"Menu.h"
+
+1713100594 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\player.cpp
+	"Player.h"
+
+1713100832 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\text.cpp
+	"Text.h"
+
+1713101474 source:c:\users\hoa\onedrive\documents\code block\game\firstgame\time.cpp
+	"Time.h"
+	"Function.h"
+
+1713098499 c:\users\hoa\onedrive\documents\code block\game\firstgame\base.h
+	"Function.h"
+
+1713098499 c:\users\hoa\onedrive\documents\code block\game\firstgame\map.h
+	"Function.h"
+	"Base.h"
+
+1713099976 c:\users\hoa\onedrive\documents\code block\game\firstgame\player.h
+	"Function.h"
+	"Base.h"
+	"Map.h"
+
+1713100675 c:\users\hoa\onedrive\documents\code block\game\firstgame\text.h
+	"Function.h"
+
+1713101048 c:\users\hoa\onedrive\documents\code block\game\firstgame\time.h
+
+1713102593 c:\users\hoa\onedrive\documents\code block\game\firstgame\menu.h
+	"Player.h"
+	"Text.h"
+
