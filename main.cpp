@@ -63,6 +63,13 @@ bool InitData(){
             return false;
         }
     }
+    
+    g_music = Mix_LoadMUS("sound//Nhacnen.mp3");
+        if (g_music == nullptr) {
+            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+                           "Could not load music! SDL_mixer Error: %s", Mix_GetError());
+            return false;
+        }
 
     return success;
 }
@@ -86,16 +93,18 @@ void close(){
     font = NULL;
     TTF_CloseFont(menu);
     menu  = NULL;
+    TTF_Quit();
 
     for(int i = 0; i < MAX_SOUND; i++){
         Mix_FreeChunk(g_sound[i]);
         g_sound[i] = NULL;
     }
+    Mix_FreeMusic(g_music);
+    g_music = NULL;
+    Mix_Quit();
 
     IMG_Quit();
     SDL_Quit();
-    TTF_Quit();
-    Mix_Quit();
 }
 using namespace std;
 int main(int argc, char* argv[])
@@ -126,14 +135,17 @@ int main(int argc, char* argv[])
     ShowMenu show_menu;
     bool is_quit = false;
 
+    Mix_PlayMusic(g_music, -1);
     int ret_menu = show_menu.showMenu(g_screen, menu, "img//background.jpg", g_sound[4]);
     if(ret_menu == 2){
+        Mix_CloseAudio();
         cout << "EXIT" << endl;
         is_quit = true;
     }
     bool check = player.get_game_over();
     while(!is_quit){
         fps.start();
+        Mix_PauseMusic();
         while(SDL_PollEvent(&g_event) != 0){
             if(g_event.type == SDL_QUIT){
                 is_quit = true;
@@ -173,8 +185,10 @@ int main(int argc, char* argv[])
 
         check = player.get_game_over();
         if(check == true){
+            Mix_ResumeMusic();
             int ret_menu = show_menu.showMenuGameOver(g_screen, menu, "img//backgroundGameOver.jpg", player, g_sound[4]);
             if(ret_menu == 2){
+                Mix_CloseAudio();
                 cout << "EXIT" << endl;
                 is_quit = true;
             }

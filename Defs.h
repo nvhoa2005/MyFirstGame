@@ -16,6 +16,7 @@ static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;
 static Mix_Chunk* g_sound[MAX_SOUND];
+static Mix_Music* g_music;
 static TTF_Font* font = NULL;
 static TTF_Font* menu = NULL;
 
