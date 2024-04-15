@@ -13,6 +13,7 @@
     Ngưỡng điểm cho là xứng đáng: ngưỡng 7.5-8.5 thậm chí là 9-10
 
 (4) Lý do: Trong game này có
+
     - Đầy đủ những tính năng mà cô hướng dẫn : ảnh, âm thanh, text, animation,  background trôi, xử lý va chạm,...
 
     - Phát triển thêm chương trình : Menu, chọn nhân vật, chơi lại, điểm ván vừa chơi, điểm kỉ lục
@@ -24,7 +25,7 @@
         + Điểm kỉ lục : Nếu điểm ván vừa chơi lớn hơn điểm kỉ lục thì cập nhật không thì thôi.
 
     - Tự học, tự tham khảo sau đó tự code phát triển chương trình;
-    
+
     - Học và tham khảo tại 3 nguồn chính sau:
         + Bài hướng dẫn của cô
         + Lazyfoo
