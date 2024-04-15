@@ -22,7 +22,7 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
         return EXIT_GAME;
     }
 
-    Text menuText[MENU];
+    Text menuText[MENU+3];
     string s1 = "PLAY GAME";
     string s2 = "HOW TO PLAY:";
     string s3 = "EXIT";
@@ -32,11 +32,12 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
     menuText[1].SetText(s2);
     menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[2].SetText(s3);
-    bool check[3] = {0, 0, 0};
+    bool check[MENU] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
+        SDL_RenderClear(des);
         Base::Render(des, NULL);
         menuText[0].RenderText(font, des, 200, 390);
         menuText[1].RenderText(font, des, 50, 150);
@@ -108,7 +109,7 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
         return EXIT_GAME;
     }
 
-    Text menuText[3];
+    Text menuText[MENU+1];
     string s1 = "PLAY GAME";
     string s2 = "HOW TO PLAY";
     string s3 = "EXIT";
@@ -118,11 +119,12 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
     menuText[1].SetText(s2);
     menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[2].SetText(s3);
-    bool check[3] = {0, 0, 0};
+    bool check[MENU] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
+        SDL_RenderClear(des);
         Base::Render(des, NULL);
         menuText[0].RenderText(font, des, 200, 400);
         menuText[1].RenderText(font, des, 200, 460);
@@ -217,21 +219,22 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
     yourPoint.SetText(yourpoint);
     record.SetText(newrecord);
 
-    Text menuText[3];
+    Text menuText[MENU];
     string s1 = "PLAY AGAIN";
-    string s3 = "EXIT";
+    string s2 = "EXIT";
     menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[0].SetText(s1);
-    menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
-    menuText[2].SetText(s3);
-    bool check[3] = {0, 0, 0};
+    menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuText[1].SetText(s2);
+    bool check[MENU-1] = {0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
     while(true){
+        SDL_RenderClear(des);
         Base::Render(des, NULL);
         menuText[0].RenderText(font, des, 200, 400);
-        menuText[2].RenderText(font, des, 200, 460);
+        menuText[1].RenderText(font, des, 200, 460);
 
         yourPoint.RenderText(font, des, 680, 310);
         record.RenderText(font, des, 680, 380);
@@ -256,14 +259,14 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                     }
 
                     if(CheckMouse(x, y, 200, 460)){
-                        if(check[2] == false){
-                            check[2] == true;
-                            menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        if(check[1] == false){
+                            check[1] == true;
+                            menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                         }
                     }
                     else{
-                        check[2] == false;
-                        menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                        check[1] == false;
+                        menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:

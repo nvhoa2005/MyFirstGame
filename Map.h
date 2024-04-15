@@ -1,7 +1,7 @@
 #ifndef _MAP__
 #define _MAP__
 
-#include "Function.h"
+#include "Defs.h"
 #include "Base.h"
 
 struct Map{

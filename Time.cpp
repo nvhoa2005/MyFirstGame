@@ -1,5 +1,5 @@
 #include "Time.h"
-#include "Function.h"
+#include "Defs.h"
 
 Time::Time()
 {

@@ -1,7 +1,7 @@
 #ifndef _PLAYER__H
 #define _PLAYER__H
 
-#include "Function.h"
+#include "Defs.h"
 #include "Base.h"
 #include "Map.h"
 
@@ -74,7 +74,7 @@ private:
     int width_frame;
     int height_frame;
 
-    SDL_Rect frameMove[14];
+    SDL_Rect frameMove[15];
     int jump;
     int frame;
 

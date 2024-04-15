@@ -1,4 +1,4 @@
-#include "Function.h"
+#include "Defs.h"
 #include "Base.h"
 #include "Map.h"
 #include "Player.h"
@@ -8,12 +8,14 @@
 Base g_background;
 bool InitData(){
     bool success = true;
-    int ret = SDL_Init(SDL_INIT_VIDEO);
-    if(ret < 0) return false;
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "SDL_Init", SDL_GetError);
+        return false;
+    }
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 
-    g_window = SDL_CreateWindow("FLAPPY BIRD", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    g_window = SDL_CreateWindow("FLAPPY BIRD", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if(g_window == NULL){
         success = false;
     }
@@ -31,12 +33,12 @@ bool InitData(){
             cerr << "SDL_TTF could not initialize! SDL_TTF Error: " << TTF_GetError << endl;
             success = false;
         }
-        font = TTF_OpenFont("font//flappybird.ttf", 25);
+        font = TTF_OpenFont("font//pixel.ttf", 25);
         if(font == NULL){
             cerr << "Could not open! SDL_TTF Error: " << TTF_GetError << endl;
             success = false;
         }
-        menu = TTF_OpenFont("font//flappybird.ttf", 50);
+        menu = TTF_OpenFont("font//pixel.ttf", 45);
         if(menu == NULL){
             cerr << "Could not open! SDL_TTF Error: " << TTF_GetError << endl;
             success = false;
@@ -56,7 +58,8 @@ bool InitData(){
 
     for(int i = 0; i < MAX_SOUND; i++){
         if(g_sound[i] == NULL){
-             cerr << "SDL_MIXER could not open! SDL_MIXER Error"<< endl;
+            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+                       "Could not load sound! SDL_mixer Error: %s", Mix_GetError());
             return false;
         }
     }
@@ -166,6 +169,8 @@ int main(int argc, char* argv[])
         point_game.SetText(str_point);
         point_game.RenderText(font, g_screen, 60, 15);
 
+        SDL_RenderPresent(g_screen);
+
         check = player.get_game_over();
         if(check == true){
             int ret_menu = show_menu.showMenuGameOver(g_screen, menu, "img//backgroundGameOver.jpg", player, g_sound[4]);
@@ -173,23 +178,19 @@ int main(int argc, char* argv[])
                 cout << "EXIT" << endl;
                 is_quit = true;
             }
-            else if(ret_menu == 0){
+            else if(ret_menu == PLAY_AGAIN){
                 player.reset();
             }
         }
 
-        SDL_RenderPresent(g_screen);
+        int real_time = fps.get_ticks();
+        int one_frame_time = 1000/FRAME_PER_SECOND; //ms
 
-        int real_imp_time = fps.get_ticks();
-        int time_one_frame = 1000/FRAME_PER_SECOND; //ms
-
-        if(real_imp_time < time_one_frame){
-            int delay_time = time_one_frame - real_imp_time;
-            if(delay_time >= 0)
-                SDL_Delay(delay_time);
+        if(real_time < one_frame_time){
+            int delay_time = one_frame_time - real_time;
+            SDL_Delay(delay_time);
         }
     }
-
     close();
     return 0;
 }

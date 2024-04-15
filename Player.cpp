@@ -70,7 +70,7 @@ void Player::Show(SDL_Renderer* des){
 
     SDL_Rect renderQuad = {rect.x, rect.y, width_frame, height_frame};
 
-    SDL_RenderCopy(des, p_object, current_clip, &renderQuad);
+    SDL_RenderCopy(des, object, current_clip, &renderQuad);
 }
 
 void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound){

@@ -1,7 +1,7 @@
 #ifndef _TEXT__
 #define _TEXT__
 
-#include "Function.h"
+#include "Defs.h"
 
 class Text
 {

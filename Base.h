@@ -1,8 +1,7 @@
 #ifndef _BASE__
 #define _BASE__
 
-#include "Function.h"
-
+#include "Defs.h"
 class Base{
 public:
     Base();
@@ -16,11 +15,11 @@ public:
         return rect;
     }
     SDL_Texture* GetObject(){
-        return p_object;
+        return object;
     }
     void Free();
 protected:
-    SDL_Texture* p_object;
+    SDL_Texture* object;
     SDL_Rect rect;
 };
 

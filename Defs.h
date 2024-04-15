@@ -41,6 +41,7 @@ const int COLOR_KEY_B = 180;
 #define MAXMAPX 400
 #define MAXMAPY 10
 
+#define PLAY_AGAIN 0
 #define START_GAME 0
 #define EXIT_GAME 2
 
