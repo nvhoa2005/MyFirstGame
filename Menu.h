@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Text.h"
 
-class ShowMenu : public Player{
+class ShowMenu : public Base{
 public:
     ShowMenu();
     ~ShowMenu();

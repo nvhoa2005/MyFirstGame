@@ -38,9 +38,8 @@ void Base::Render(SDL_Renderer* des){
 void Base::Free(){
     SDL_DestroyTexture(object);
     object = NULL;
-    rect.w = 0;
-    rect.h = 0;
 }
+
 
 
 

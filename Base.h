@@ -11,12 +11,6 @@ public:
     void SetRect(const int&x, const int&y){
         rect.x = x, rect.y = y;
     }
-    SDL_Rect GetRect(){
-        return rect;
-    }
-    SDL_Texture* GetObject(){
-        return object;
-    }
     void Free();
 protected:
     SDL_Rect rect;

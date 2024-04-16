@@ -1,5 +1,5 @@
-#ifndef _FUNCTION__H
-#define _FUNCTION__H
+#ifndef _DEFS__H
+#define _DEFS__H
 
 #include <bits/stdc++.h>
 #include <SDL2/SDL.h>
@@ -52,4 +52,4 @@ const int HEIGHT_TEXT = 40;
 #define MENU_CHAR 5
 
 
-#endif // _FUNCTION__H
+#endif // _DEFS__H

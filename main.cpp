@@ -14,6 +14,7 @@ bool InitData(){
     }
 
     g_window = SDL_CreateWindow("FLAPPY BIRD", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+
     if(g_window == NULL){
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "CreateWindow", SDL_GetError);
         success = false;
@@ -73,44 +74,42 @@ bool InitData(){
     }
     
     g_music = Mix_LoadMUS("sound//Nhacnen.mp3");
-        if (g_music == nullptr) {
-            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
-                           "Could not load music! SDL_mixer Error: %s", Mix_GetError());
-            return false;
-        }
-
-    return success;
-}
-bool LoadBackground(){
-    bool load = g_background.Load_image("img//background.jpg", g_screen);
-    if(load == false){
-        cerr << "Cannot load background" << endl;
+    if (g_music == nullptr) {
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+                        "Could not load music! SDL_mixer Error: %s", Mix_GetError());
         return false;
     }
-    return true;
+
+    bool load = g_background.Load_image("img//background.jpg", g_screen);
+    if(load == false){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+                           "Could not load g_background! SDL_Image Error: %s", IMG_GetError());
+        return false;
+    }
+    return success;
 }
+
 void close(){
     g_background.Free();
     SDL_DestroyRenderer(g_screen);
-    g_screen = NULL;
-
     SDL_DestroyWindow(g_window);
+    g_screen = NULL;
     g_window = NULL;
 
     TTF_CloseFont(font);
-    font = NULL;
     TTF_CloseFont(menu);
+    font = NULL;
     menu  = NULL;
-    TTF_Quit();
 
+    Mix_FreeMusic(g_music);
+    g_music = NULL;
     for(int i = 0; i < MAX_SOUND; i++){
         Mix_FreeChunk(g_sound[i]);
         g_sound[i] = NULL;
     }
-    Mix_FreeMusic(g_music);
-    g_music = NULL;
-    Mix_Quit();
 
+    Mix_Quit();
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -121,7 +120,6 @@ int main(int argc, char* argv[])
         cerr << "INIT_ERROR" << endl;
         return -1;
     }
-    if(LoadBackground() == false) return -1;
 
     GameMap game_map;
     string path = "map//map02.txt";
@@ -174,6 +172,8 @@ int main(int argc, char* argv[])
         while(SDL_PollEvent(&g_event) != 0){
             if(g_event.type == SDL_QUIT){
                 is_quit = true;
+                close();
+                return 0;
             }
 
             player.Input(g_event, g_screen, g_sound[3]);
@@ -208,9 +208,12 @@ int main(int argc, char* argv[])
                 Mix_CloseAudio();
                 cout << "EXIT" << endl;
                 is_quit = true;
+                close();
+                return 0;
             }
             else if(choose_game_over == PLAY_AGAIN){
                 player.reset();
+                continue;
             }
             else if(choose_game_over == CHOOSE_CHAR){
                 player.reset();
@@ -218,32 +221,37 @@ int main(int argc, char* argv[])
                 if(choose_char == CHAR_1){
                     player.Load_image("img//mainbird1.png", g_screen, choose_char);
                     player.SetClips(CHAR_1);
+                    continue;
                 }
                 else if(choose_char == CHAR_2){
                     player.Load_image("img//mainbird2.png", g_screen, choose_char);
                     player.SetClips(CHAR_2);
+                    continue;
                 }
                 else if(choose_char == CHAR_3){
                     player.Load_image("img//mainbird3.png", g_screen, choose_char);
                     player.SetClips(CHAR_3);
+                    continue;
                 }
                 else if(choose_char == CHAR_4){
                     player.Load_image("img//mainbird4.png", g_screen, choose_char);
                     player.SetClips(CHAR_4);
+                    continue;
                 }
                 else{
                     Mix_CloseAudio();
                     cout << "EXIT" << endl;
                     is_quit = true;
+                    close();
+                    return 0;
                 }
             }
         }
 
-        int real_time = SDL_GetTicks() - time;
+        int one_loop_time = SDL_GetTicks() - time;
         int one_frame_time = 1000/FRAME_PER_SECOND; //ms
-
-        if(real_time < one_frame_time){
-            int delay_time = one_frame_time - real_time;
+        if(one_loop_time < one_frame_time){
+            int delay_time = one_frame_time - one_loop_time;
             SDL_Delay(delay_time);
         }
     }
