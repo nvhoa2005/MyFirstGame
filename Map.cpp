@@ -52,11 +52,7 @@ void GameMap::DrawMap(SDL_Renderer* screen){
     x1 = (gameMap.start_x %SQUARE_SIZE)*-1;
     x2 = x1 + SCREEN_WIDTH + (x1 == 0 ? 0 : SQUARE_SIZE);
 
-    map_y = gameMap.start_y/SQUARE_SIZE;
-    y1 = (gameMap.start_y%SQUARE_SIZE)*-1;
-    y2 = y1 + SCREEN_HEIGHT + (y1 == 0 ? 0 : SQUARE_SIZE);
-
-    for(int i = y1; i < y2; i+= SQUARE_SIZE){
+    for(int i = 0; i < MAX_MAP_Y * SQUARE_SIZE; i+= SQUARE_SIZE){
         map_x = gameMap.start_x/SQUARE_SIZE;
         for(int j = x1; j < x2; j+= SQUARE_SIZE){
             int val = gameMap.square[map_y][map_x];

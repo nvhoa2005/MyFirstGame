@@ -130,9 +130,6 @@ int main(int argc, char* argv[])
 
     Player player;
 
-    Text time_game;
-    time_game.SetColor(225, 225, 225);
-
     Text point_game;
     point_game.SetColor(225, 225, 225);
 
@@ -140,7 +137,7 @@ int main(int argc, char* argv[])
     bool is_quit = false;
     int choose_char = 0;;
     Mix_PlayMusic(g_music, -1);
-    int choose_menu = show_menu.showMenu(g_screen, menu, "img//background.jpg", g_sound[4]);
+    int choose_menu = show_menu.showMenu(g_screen, menu, "img//backgroundstart.jpg", g_sound[4]);
     if(choose_menu == EXIT_GAME){
         Mix_CloseAudio();
         cout << "EXIT" << endl;

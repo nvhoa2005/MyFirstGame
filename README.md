@@ -16,7 +16,7 @@
 
     - Đầy đủ những tính năng mà cô hướng dẫn : ảnh, âm thanh, text, animation,  background trôi, xử lý va chạm,...
 
-    - Phát triển thêm chương trình : Menu, chọn nhân vật, chơi lại, điểm ván vừa chơi, điểm kỉ lục
+    - Phát triển thêm chương trình : Menu, chọn nhân vật, chơi lại, điểm ván vừa chơi, điểm kỉ lục;
 
     - Đồ hoạ ổn;
 

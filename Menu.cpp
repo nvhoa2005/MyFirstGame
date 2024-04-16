@@ -52,24 +52,20 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
                     y = event.motion.y;
 
                     if(CheckMouse(x, y, 200, 390)){
-                        if(check[0] == false){
-                            check[0] == true;
-                            menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[0] = true;
+                        menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[0] == false;
+                        check[0] = false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 200, 450)){
-                        if(check[2] == false){
-                            check[2] == true;
-                            menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[2] = true;
+                        menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[2] == false;
+                        check[2] = false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -141,35 +137,29 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
                     y = event.motion.y;
 
                     if(CheckMouse(x, y, 200, 400)){
-                        if(check[0] == false){
-                            check[0] == true;
-                            menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[0] = true;
+                        menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[0] == false;
+                        check[0] = false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 200, 460)){
-                        if(check[1] == false){
-                            check[1] == true;
-                            menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[1] = true;
+                        menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[1] == false;
+                        check[1] = false;
                         menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 200, 520)){
-                        if(check[2] == false){
-                            check[2] == true;
-                            menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[2] = true;
+                        menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[2] == false;
+                        check[2] = false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -257,35 +247,29 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                     y = event.motion.y;
 
                     if(CheckMouse(x, y, 200, 400)){
-                        if(check[0] == false){
-                            check[0] == true;
-                            menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[0] = true;
+                        menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[0] == false;
+                        check[0] = false;
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 200, 470)){
-                        if(check[1] == false){
-                            check[1] == true;
-                            menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[1] = true;
+                        menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[1] == false;
+                        check[1] = false;
                         menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 200, 540)){
-                        if(check[2] == false){
-                            check[2] == true;
-                            menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[2] = true;
+                        menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[2] == false;
+                        check[2] = false;
                         menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
@@ -369,57 +353,47 @@ int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chu
                     y = event.motion.y;
 
                     if(CheckMouse(x, y, 300, 100)){
-                        if(check[0] == false){
-                            check[0] == true;
-                            menuChar[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[0] = true;
+                        menuChar[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[0] == false;
+                        check[0] = false;
                         menuChar[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 300, 200)){
-                        if(check[1] == false){
-                            check[1] == true;
-                            menuChar[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[1] = true;
+                        menuChar[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[1] == false;
+                        check[1] = false;
                         menuChar[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 300, 300)){
-                        if(check[2] == false){
-                            check[2] == true;
-                            menuChar[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[2] = true;
+                        menuChar[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[2] == false;
+                        check[2] = false;
                         menuChar[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 300, 400)){
-                        if(check[3] == false){
-                            check[3] == true;
-                            menuChar[3].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[3] = true;
+                        menuChar[3].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[3] == false;
+                        check[3] = false;
                         menuChar[3].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
                     if(CheckMouse(x, y, 300, 500)){
-                        if(check[4] == false){
-                            check[4] == true;
-                            menuChar[4].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
-                        }
+                        check[4] = true;
+                        menuChar[4].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
                     }
                     else{
-                        check[4] == false;
+                        check[4] = false;
                         menuChar[4].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;

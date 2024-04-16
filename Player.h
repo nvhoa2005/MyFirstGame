@@ -25,7 +25,9 @@ public:
     void MoveMap(Map& map_data);
     void WhileJump(Map& map_data, Mix_Chunk* sound[]);
     void CheckMap(Map& map_data, Mix_Chunk* sound[]);
-    void SetMap(const int x, const int y){map_x = x; map_y = y;}
+    void SetMap(const int x, const int y){
+        map_x = x; map_y = y;
+    }
 
     int get_point(){
         return point;
