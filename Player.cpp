@@ -22,20 +22,26 @@ Player::~Player(){
 
 }
 
-bool Player::Load_image(string path, SDL_Renderer* screen)
+bool Player::Load_image(string path, SDL_Renderer* screen, int n)
 {
-    bool ret = Base::Load_image(path, screen);
+    bool load = Base::Load_image(path, screen);
 
-    if(ret == true)
-    {
-        width_frame = rect.w/5;
-        height_frame = rect.h/3;
+    if(load == true)
+    {   
+        if(n == CHAR_1){
+            width_frame = rect.w/5;
+            height_frame = rect.h/3;
+        }
+        else{
+            width_frame = rect.w/3;
+            height_frame = rect.h/3;
+        }
     }
-    return ret;
+    return load;
 }
 
-void Player::SetClips(){
-    if(width_frame > 0 && height_frame > 0){
+void Player::SetClips(int n){
+    if(n == CHAR_1){
         for(int i = 0; i < 5; i++){
             frameMove[i].x = i*width_frame;
             frameMove[i].y = 0;
@@ -54,15 +60,40 @@ void Player::SetClips(){
             frameMove[i].w = width_frame;
             frameMove[i].h = height_frame;
         }
-
+    }
+    else{
+        for(int i = 0; i < 3; i++){
+            frameMove[i].x = i*width_frame;
+            frameMove[i].y = 0;
+            frameMove[i].w = width_frame;
+            frameMove[i].h = height_frame;
+        }
+        for(int i = 3; i < 6; i++){
+            frameMove[i].x = (i%3)*width_frame;
+            frameMove[i].y = height_frame;
+            frameMove[i].w = width_frame;
+            frameMove[i].h = height_frame;
+        }
+        for(int i = 6; i < 9; i++){
+            frameMove[i].x = (i%3)*width_frame;
+            frameMove[i].y = 2*height_frame;
+            frameMove[i].w = width_frame;
+            frameMove[i].h = height_frame;
+        }
     }
 }
 
-void Player::Show(SDL_Renderer* des){
-    Load_image("img//mainbird.png", des);
-    frame++;
-    if(frame >= 14) frame = 0;
-
+void Player::Show(SDL_Renderer* des, int n){
+    string path = "img//mainbird" + to_string(n) + ".png";
+    Load_image(path, des, n);
+    if(n == CHAR_1){
+        frame++;
+        if(frame >= 14) frame = 0;
+    }
+    else{
+        frame++;
+        if(frame >= 9) frame = 0;
+    }
     rect.x = x_now - map_x;
     rect.y = y_now - map_y;
 
@@ -113,16 +144,16 @@ void Player::MoveMap(Map& map_data)
     if(map_data.start_x <= 0){
         map_data.start_x = 0;
     }
-    else if(map_data.start_x + SCREEN_WIDTH >= map_data.max_x){
-        map_data.start_x = map_data.max_x - SCREEN_WIDTH;
+    else if(map_data.start_x + SCREEN_WIDTH >= map_data.end_x){
+        map_data.start_x = map_data.end_x - SCREEN_WIDTH;
     }
 
     map_data.start_y = y_now - (SCREEN_HEIGHT/3);
     if(map_data.start_y <= 0){
         map_data.start_y = 0;
     }
-    else if(map_data.start_y + SCREEN_HEIGHT >= map_data.max_y){
-        map_data.start_y = map_data.max_y - SCREEN_HEIGHT;
+    else if(map_data.start_y + SCREEN_HEIGHT >= map_data.end_y){
+        map_data.start_y = map_data.end_y - SCREEN_HEIGHT;
     }
 }
 
@@ -134,10 +165,13 @@ void Player::CheckMap(Map& map_data, Mix_Chunk* sound[])
     int y1 = 0;
     int y2 = 0;
 
-    x1 = (x_now + x_add)/SQUARE_SIZE;
-    x2 = (x_now + x_add + width_frame - 1)/SQUARE_SIZE;
+    x1 = (x_now)/SQUARE_SIZE;
+    x2 = (x_now + width_frame)/SQUARE_SIZE;
 
-    for(int i = 1; i < MAXMAPY-1; i++){
+    y1 = (y_now)/SQUARE_SIZE;
+    y2 = (y_now + height_frame)/SQUARE_SIZE;
+
+    for(int i = 1; i < MAX_MAP_Y-1; i++){
         if(map_data.square[i][x2]){
             tmp++;
             if(tmp >= 10){
@@ -152,30 +186,13 @@ void Player::CheckMap(Map& map_data, Mix_Chunk* sound[])
         }
     }
 
-    y1 = (y_now)/SQUARE_SIZE;
-    y2 = (y_now + height_frame - 1)/SQUARE_SIZE;
-
-    if(x1 >= 0 && x2 < MAXMAPX && y1 >= 0 && y2 < MAXMAPY){
-        if(map_data.square[y1][x2] != BLANK_SQUARE || map_data.square[y2][x2] != BLANK_SQUARE){
-            set_game_over(true);
-            Mix_PlayChannel( -1, sound[2], 0 );
-            Mix_PlayChannel( -1, sound[1], 0 );
-        }
+    if(map_data.square[y1][x2] != BLANK_SQUARE || map_data.square[y2][x2] != BLANK_SQUARE ||
+                    map_data.square[y1][x1] != BLANK_SQUARE || map_data.square[y2][x1] != BLANK_SQUARE){
+        set_game_over(true);
+        Mix_PlayChannel( -1, sound[2], 0 );
+        Mix_PlayChannel( -1, sound[1], 0 );
     }
 
-    x1 = (x_now)/SQUARE_SIZE;
-    x2 = (x_now + width_frame)/SQUARE_SIZE;
-
-    y1 = (y_now + y_add)/SQUARE_SIZE;
-    y2 = (y_now + y_add + height_frame-1)/SQUARE_SIZE;
-
-    if(x1 >= 0 && x2 < MAXMAPX && y1 >= 0 && y2 < MAXMAPY){
-        if(map_data.square[y2][x1] != BLANK_SQUARE || map_data.square[y2][x2] != BLANK_SQUARE || map_data.square[y1][x1] != BLANK_SQUARE || map_data.square[y1][x2] != BLANK_SQUARE){
-            set_game_over(true);
-            Mix_PlayChannel( -1, sound[2], 0 );
-            Mix_PlayChannel( -1, sound[1], 0 );
-        }
-    }
     if(get_game_over()){
         set_point(point--);
         set_record(record--);

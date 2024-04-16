@@ -74,8 +74,8 @@ bool InitData(){
     return success;
 }
 bool LoadBackground(){
-    bool ret = g_background.Load_image("img//background.jpg", g_screen);
-    if(ret == false){
+    bool load = g_background.Load_image("img//background.jpg", g_screen);
+    if(load == false){
         cerr << "Cannot load background" << endl;
         return false;
     }
@@ -109,8 +109,6 @@ void close(){
 using namespace std;
 int main(int argc, char* argv[])
 {
-    Time fps;
-
     if(InitData() == false){
         cerr << "INIT_ERROR" << endl;
         return -1;
@@ -123,8 +121,6 @@ int main(int argc, char* argv[])
     game_map.LoadSquare(g_screen);
 
     Player player;
-    player.Load_image("img//mainbird.png", g_screen);
-    player.SetClips();
 
     Text time_game;
     time_game.SetColor(225, 225, 225);
@@ -134,17 +130,41 @@ int main(int argc, char* argv[])
 
     ShowMenu show_menu;
     bool is_quit = false;
-
+    int choose_char = 0;;
     Mix_PlayMusic(g_music, -1);
-    int ret_menu = show_menu.showMenu(g_screen, menu, "img//background.jpg", g_sound[4]);
-    if(ret_menu == 2){
+    int choose_menu = show_menu.showMenu(g_screen, menu, "img//background.jpg", g_sound[4]);
+    if(choose_menu == EXIT_GAME){
         Mix_CloseAudio();
         cout << "EXIT" << endl;
         is_quit = true;
     }
+    else if(choose_menu == START_GAME){
+        choose_char = show_menu.chooseChar(g_screen, menu, "img//background.jpg", g_sound[4]);
+        if(choose_char == CHAR_1){
+            player.Load_image("img//mainbird1.png", g_screen, choose_char);
+            player.SetClips(CHAR_1);
+        }
+        else if(choose_char == CHAR_2){
+            player.Load_image("img//mainbird2.png", g_screen, choose_char);
+            player.SetClips(CHAR_2);
+        }
+        else if(choose_char == CHAR_3){
+            player.Load_image("img//mainbird3.png", g_screen, choose_char);
+            player.SetClips(CHAR_3);
+        }
+        else if(choose_char == CHAR_4){
+            player.Load_image("img//mainbird4.png", g_screen, choose_char);
+            player.SetClips(CHAR_4);
+        }
+        else{
+            Mix_CloseAudio();
+            cout << "EXIT" << endl;
+            is_quit = true;
+        }
+    }
     bool check = player.get_game_over();
     while(!is_quit){
-        fps.start();
+        int time = SDL_GetTicks();
         Mix_PauseMusic();
         while(SDL_PollEvent(&g_event) != 0){
             if(g_event.type == SDL_QUIT){
@@ -161,22 +181,14 @@ int main(int argc, char* argv[])
 
         player.SetMap(map_data.start_x, map_data.start_y);
         player.WhileJump(map_data, g_sound);
-        player.Show(g_screen);
+        player.Show(g_screen, choose_char);
 
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);
 
-        string str_time = "Time: ";
-        Uint32 time_val = SDL_GetTicks() / 1000; //ms;
-        string str_val = to_string(time_val);
-        str_time += str_val;
-
         string str_point = "Point: ";
         string point_val = to_string(player.get_point());
         str_point += point_val;
-
-        time_game.SetText(str_time);
-        time_game.RenderText(font, g_screen, SCREEN_WIDTH-160, 15);
 
         point_game.SetText(str_point);
         point_game.RenderText(font, g_screen, 60, 15);
@@ -186,18 +198,43 @@ int main(int argc, char* argv[])
         check = player.get_game_over();
         if(check == true){
             Mix_ResumeMusic();
-            int ret_menu = show_menu.showMenuGameOver(g_screen, menu, "img//backgroundGameOver.jpg", player, g_sound[4]);
-            if(ret_menu == 2){
+            int choose_game_over = show_menu.showMenuGameOver(g_screen, menu, "img//backgroundGameOver.jpg", player, g_sound[4]);
+            if(choose_game_over == EXIT_GAME){
                 Mix_CloseAudio();
                 cout << "EXIT" << endl;
                 is_quit = true;
             }
-            else if(ret_menu == PLAY_AGAIN){
+            else if(choose_game_over == PLAY_AGAIN){
                 player.reset();
+            }
+            else if(choose_game_over == CHOOSE_CHAR){
+                player.reset();
+                choose_char = show_menu.chooseChar(g_screen, menu, "img//background.jpg", g_sound[4]);
+                if(choose_char == CHAR_1){
+                    player.Load_image("img//mainbird1.png", g_screen, choose_char);
+                    player.SetClips(CHAR_1);
+                }
+                else if(choose_char == CHAR_2){
+                    player.Load_image("img//mainbird2.png", g_screen, choose_char);
+                    player.SetClips(CHAR_2);
+                }
+                else if(choose_char == CHAR_3){
+                    player.Load_image("img//mainbird3.png", g_screen, choose_char);
+                    player.SetClips(CHAR_3);
+                }
+                else if(choose_char == CHAR_4){
+                    player.Load_image("img//mainbird4.png", g_screen, choose_char);
+                    player.SetClips(CHAR_4);
+                }
+                else{
+                    Mix_CloseAudio();
+                    cout << "EXIT" << endl;
+                    is_quit = true;
+                }
             }
         }
 
-        int real_time = fps.get_ticks();
+        int real_time = SDL_GetTicks() - time;
         int one_frame_time = 1000/FRAME_PER_SECOND; //ms
 
         if(real_time < one_frame_time){

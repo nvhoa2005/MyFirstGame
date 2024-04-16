@@ -17,10 +17,10 @@ public:
     Player();
     ~Player();
 
-    bool Load_image(string path, SDL_Renderer* screen);
-    void Show(SDL_Renderer* des);
+    bool Load_image(string path, SDL_Renderer* screen, int n);
+    void Show(SDL_Renderer* des, int n);
     void Input(SDL_Event, SDL_Renderer*, Mix_Chunk*);
-    void SetClips();
+    void SetClips(int n);
 
     void MoveMap(Map& map_data);
     void WhileJump(Map& map_data, Mix_Chunk* sound[]);

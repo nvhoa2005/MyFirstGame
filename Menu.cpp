@@ -16,13 +16,13 @@ bool ShowMenu::CheckMouse(const int &x, const int &y, const int& a, const int&b)
 }
 
 int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk* sound){
-    bool ret = Base::Load_image(path, des);
-    if(ret == false){
+    bool load = Base::Load_image(path, des);
+    if(load == false){
         cerr << "Could not open ShowHowToPlay" << endl;
         return EXIT_GAME;
     }
 
-    Text menuText[MENU+3];
+    Text menuText[MENU+5];
     string s1 = "PLAY GAME";
     string s2 = "HOW TO PLAY:";
     string s3 = "EXIT";
@@ -99,17 +99,20 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
         }
         SDL_RenderPresent(des);
     }
-    return 1;
+    for(int i = 0; i < MENU; i++){
+        menuText[i].Free();
+    }
+    return START_GAME;
 }
 
 int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk *sound){
-    bool ret = Base::Load_image(path, des);
-    if(ret == false){
+    bool load = Base::Load_image(path, des);
+    if(load == false){
         cerr << "Could not open ShowMenu" << endl;
         return EXIT_GAME;
     }
 
-    Text menuText[MENU+1];
+    Text menuText[MENU+5];
     string s1 = "PLAY GAME";
     string s2 = "HOW TO PLAY";
     string s3 = "EXIT";
@@ -200,11 +203,14 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
         }
         SDL_RenderPresent(des);
     }
-    return 1;
+    for(int i = 0; i < MENU; i++){
+        menuText[i].Free();
+    }
+    return START_GAME;
 }
 int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, Player p_player, Mix_Chunk* sound){
-    bool ret = Base::Load_image(path, des);
-    if(ret == false){
+    bool load = Base::Load_image(path, des);
+    if(load == false){
         cerr << "Could not open ShowMenuGameOver" << endl;
         return EXIT_GAME;
     }
@@ -212,21 +218,23 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
     Text record;
     string yourpoint = "YOUR POINT: ";
     yourpoint += to_string(p_player.get_point());
-    string newrecord = "RECORD: ";
-    newrecord += to_string(p_player.get_record());
+    string newrecord = "RECORD: " + to_string(p_player.get_record());
     yourPoint.SetColor(MAX_COLOR, 109, 2);
     record.SetColor(MAX_COLOR, 228, 3);
     yourPoint.SetText(yourpoint);
     record.SetText(newrecord);
 
-    Text menuText[MENU];
+    Text menuText[MENU+1];
     string s1 = "PLAY AGAIN";
-    string s2 = "EXIT";
+    string s2 = "CHOOSE CHARACTOR";
+    string s3 = "EXIT";
     menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[0].SetText(s1);
     menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
     menuText[1].SetText(s2);
-    bool check[MENU-1] = {0, 0};
+    menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuText[2].SetText(s3);
+    bool check[MENU] = {0, 0, 0};
     int x = 0, y = 0;
 
     SDL_Event event;
@@ -234,7 +242,8 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
         SDL_RenderClear(des);
         Base::Render(des, NULL);
         menuText[0].RenderText(font, des, 200, 400);
-        menuText[1].RenderText(font, des, 200, 460);
+        menuText[1].RenderText(font, des, 200, 470);
+        menuText[2].RenderText(font, des, 200, 540);
 
         yourPoint.RenderText(font, des, 680, 310);
         record.RenderText(font, des, 680, 380);
@@ -258,7 +267,7 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                         menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
 
-                    if(CheckMouse(x, y, 200, 460)){
+                    if(CheckMouse(x, y, 200, 470)){
                         if(check[1] == false){
                             check[1] == true;
                             menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
@@ -267,6 +276,17 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                     else{
                         check[1] == false;
                         menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 200, 540)){
+                        if(check[2] == false){
+                            check[2] == true;
+                            menuText[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[2] == false;
+                        menuText[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
@@ -278,7 +298,10 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
                         if(CheckMouse(x, y, 200, 400)){
                             return START_GAME;
                         }
-                        if(CheckMouse(x, y, 200, 460)){
+                        if(CheckMouse(x, y, 200, 470)){
+                            return CHOOSE_CHAR;
+                        }
+                        if(CheckMouse(x, y, 200, 540)){
                             return EXIT_GAME;
                         }
 
@@ -295,5 +318,148 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
         }
         SDL_RenderPresent(des);
     }
-    return 1;
+    for(int i = 0; i < MENU; i++){
+        menuText[i].Free();
+    }
+    return START_GAME;
+}
+int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk* sound){
+    bool load = Base::Load_image(path, des);
+    if(load == false){
+        cerr << "Could not open ChooseChar" << endl;
+        return EXIT_GAME;
+    }
+    
+    Text menuChar[MENU_CHAR+5];
+    string s1 = "CHARACTOR 1";
+    string s2 = "CHARACTOR 2";
+    string s3 = "CHARACTOR 3";
+    string s4 = "CHARACTOR 4";
+    string s5 = "EXIT";
+
+    menuChar[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuChar[0].SetText(s1);
+    menuChar[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuChar[1].SetText(s2);
+    menuChar[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuChar[2].SetText(s3);
+    menuChar[3].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuChar[3].SetText(s4);
+    menuChar[4].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuChar[4].SetText(s5);
+    bool check[MENU_CHAR] = {0, 0, 0, 0};
+    int x = 0, y = 0;
+
+    SDL_Event event;
+    while(true){
+        SDL_RenderClear(des);
+        Base::Render(des, NULL);
+        menuChar[0].RenderText(font, des, 300, 100);
+        menuChar[1].RenderText(font, des, 300, 200);
+        menuChar[2].RenderText(font, des, 300, 300);
+        menuChar[3].RenderText(font, des, 300, 400);
+        menuChar[4].RenderText(font, des, 300, 500);
+
+        while(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                    return EXIT_GAME;
+                case SDL_MOUSEMOTION:
+                    x = event.motion.x;
+                    y = event.motion.y;
+
+                    if(CheckMouse(x, y, 300, 100)){
+                        if(check[0] == false){
+                            check[0] == true;
+                            menuChar[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[0] == false;
+                        menuChar[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 300, 200)){
+                        if(check[1] == false){
+                            check[1] == true;
+                            menuChar[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[1] == false;
+                        menuChar[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 300, 300)){
+                        if(check[2] == false){
+                            check[2] == true;
+                            menuChar[2].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[2] == false;
+                        menuChar[2].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 300, 400)){
+                        if(check[3] == false){
+                            check[3] == true;
+                            menuChar[3].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[3] == false;
+                        menuChar[3].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 300, 500)){
+                        if(check[4] == false){
+                            check[4] == true;
+                            menuChar[4].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                        }
+                    }
+                    else{
+                        check[4] == false;
+                        menuChar[4].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    {
+                        Mix_PlayChannel( -1, sound, 0 );
+                        x = event.button.x;
+                        y = event.button.y;
+
+                        if(CheckMouse(x, y, 300, 100)){
+                            return CHAR_1;
+                        }
+                        if(CheckMouse(x, y, 300, 200)){
+                            return CHAR_2;
+                        }
+                        if(CheckMouse(x, y, 300, 300)){
+                            return CHAR_3;
+                        }
+                        if(CheckMouse(x, y, 300, 400)){
+                            return CHAR_4;
+                        }
+                        if(CheckMouse(x, y, 300, 500)){
+                            return EXIT_GAME;
+                        }
+
+                    }
+                    break;
+                case SDL_KEYDOWN:
+                    if(event.key.keysym.sym == SDLK_ESCAPE){
+                        return EXIT_GAME;
+                    }
+                default:
+                    break;
+            }
+
+        }
+        SDL_RenderPresent(des);
+    }
+    for(int i = 0; i < MENU_CHAR; i++){
+        menuChar[i].Free();
+    }
+    return CHAR_1;
 }
