@@ -13,40 +13,48 @@ bool InitData(){
         return false;
     }
 
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
     g_window = SDL_CreateWindow("FLAPPY BIRD", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
     if(g_window == NULL){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "CreateWindow", SDL_GetError);
         success = false;
     }
     else{
         g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-        if(g_screen == NULL) success = NULL;
+        if(g_screen == NULL){
+            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "CreateRenderer", SDL_GetError);
+            success = false;
+        }
         else{
-            SDL_SetRenderDrawColor(g_screen, MAX_COLOR, MAX_COLOR, MAX_COLOR, MAX_COLOR);
-            int imgFlags = IMG_INIT_PNG;
-            if(!(IMG_Init(imgFlags) && imgFlags)) success = false;
+            if (!IMG_Init(IMG_INIT_PNG || IMG_INIT_JPG)){
+                SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "SDL_image error:", IMG_GetError);
+                success = false;
+            }
+        }
+    }
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_RenderSetLogicalSize(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        }
-
-        if(TTF_Init() == -1){
-            cerr << "SDL_TTF could not initialize! SDL_TTF Error: " << TTF_GetError << endl;
-            success = false;
-        }
-        font = TTF_OpenFont("font//pixel.ttf", 25);
-        if(font == NULL){
-            cerr << "Could not open! SDL_TTF Error: " << TTF_GetError << endl;
-            success = false;
-        }
-        menu = TTF_OpenFont("font//pixel.ttf", 45);
-        if(menu == NULL){
-            cerr << "Could not open! SDL_TTF Error: " << TTF_GetError << endl;
-            success = false;
-        }
+    if(TTF_Init() == -1){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
+                     "SDL_TTF could not initialize! SDL_TTF Error: ", TTF_GetError);
+        success = false;
+    }
+    font = TTF_OpenFont("font//pixel.ttf", 25);
+    if(font == NULL){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
+                     "Could not open font ! SDL_TTF Error: ", TTF_GetError);
+        success = false;
+    }
+    menu = TTF_OpenFont("font//pixel.ttf", 45);
+    if(menu == NULL){
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
+                     "Could not open font ! SDL_TTF Error: ", TTF_GetError);
+        success = false;
     }
 
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
-        cerr << "SDL_MIXER could not initialize! SDL_MIXER Error: " << Mix_GetError << endl;
+        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
+                     "SDL_MIXER could not initialize! SDL_MIXER Error: ", Mix_GetError);
         return false;
     }
 
@@ -139,7 +147,7 @@ int main(int argc, char* argv[])
         is_quit = true;
     }
     else if(choose_menu == START_GAME){
-        choose_char = show_menu.chooseChar(g_screen, menu, "img//background.jpg", g_sound[4]);
+        choose_char = show_menu.chooseChar(g_screen, menu, "img//backgroundchoosechar.jpg", g_sound[4]);
         if(choose_char == CHAR_1){
             player.Load_image("img//mainbird1.png", g_screen, choose_char);
             player.SetClips(CHAR_1);
@@ -176,7 +184,7 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(g_screen, MAX_COLOR, MAX_COLOR, MAX_COLOR, MAX_COLOR);
         SDL_RenderClear(g_screen);
 
-        g_background.Render(g_screen, NULL);
+        g_background.Render(g_screen);
         Map map_data = game_map.getMap();
 
         player.SetMap(map_data.start_x, map_data.start_y);
@@ -209,7 +217,7 @@ int main(int argc, char* argv[])
             }
             else if(choose_game_over == CHOOSE_CHAR){
                 player.reset();
-                choose_char = show_menu.chooseChar(g_screen, menu, "img//background.jpg", g_sound[4]);
+                choose_char = show_menu.chooseChar(g_screen, menu, "img//backgroundchoosechar.jpg", g_sound[4]);
                 if(choose_char == CHAR_1){
                     player.Load_image("img//mainbird1.png", g_screen, choose_char);
                     player.SetClips(CHAR_1);

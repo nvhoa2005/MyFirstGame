@@ -8,29 +8,17 @@ struct Map{
     int start_x;
     int start_y;
 
-    int max_x;
-    int max_y;
+    int end_x;
+    int end_y;
 
-    int square[MAXMAPY][MAXMAPX];
+    int square[MAX_MAP_Y][MAX_MAP_X];
     string file_name;
 };
-
-class Square : public Base
-{
-public:
-    Square(){
-
-    }
-    ~Square(){
-
-    }
-};
-
 class GameMap
 {
 private:
     Map gameMap;
-    Square square[MAX_SQUARE];
+    Base square[MAX_SQUARE];
 public:
     GameMap(){
     }

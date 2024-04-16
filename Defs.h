@@ -31,22 +31,25 @@ const int MIN_COLOR = 0;
 const int WIDTH_TEXT = 360;
 const int HEIGHT_TEXT = 40;
 
-const int COLOR_KEY_R = 167;
-const int COLOR_KEY_G = 175;
-const int COLOR_KEY_B = 180;
-
 #define BLANK_SQUARE 0
 
 #define SQUARE_SIZE 64
 
-#define MAXMAPX 400
-#define MAXMAPY 10
+#define MAX_MAP_X 400
+#define MAX_MAP_Y 10
+
+#define CHAR_1 1
+#define CHAR_2 2
+#define CHAR_3 3
+#define CHAR_4 4
 
 #define PLAY_AGAIN 0
 #define START_GAME 0
-#define EXIT_GAME 2
+#define CHOOSE_CHAR 1
+#define EXIT_GAME 5
 
 #define MENU 3
+#define MENU_CHAR 5
 
 
 #endif // _FUNCTION__H

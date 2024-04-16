@@ -99,9 +99,9 @@ void Player::Show(SDL_Renderer* des, int n){
 
     SDL_Rect* current_clip = &frameMove[frame];
 
-    SDL_Rect renderQuad = {rect.x, rect.y, width_frame, height_frame};
+    SDL_Rect dest = {rect.x, rect.y, width_frame, height_frame};
 
-    SDL_RenderCopy(des, object, current_clip, &renderQuad);
+    SDL_RenderCopy(des, object, current_clip, &dest);
 }
 
 void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound){
@@ -114,7 +114,6 @@ void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound){
     else if(events.type == SDL_KEYUP){
         jump = 0;
     }
-
 }
 
 void Player::WhileJump(Map& map_data, Mix_Chunk* sound[]){
@@ -140,20 +139,12 @@ void Player::WhileJump(Map& map_data, Mix_Chunk* sound[]){
 
 void Player::MoveMap(Map& map_data)
 {
-    map_data.start_x = x_now -(SCREEN_WIDTH/3);
+    map_data.start_x = x_now - (SCREEN_WIDTH/3);
     if(map_data.start_x <= 0){
         map_data.start_x = 0;
     }
     else if(map_data.start_x + SCREEN_WIDTH >= map_data.end_x){
         map_data.start_x = map_data.end_x - SCREEN_WIDTH;
-    }
-
-    map_data.start_y = y_now - (SCREEN_HEIGHT/3);
-    if(map_data.start_y <= 0){
-        map_data.start_y = 0;
-    }
-    else if(map_data.start_y + SCREEN_HEIGHT >= map_data.end_y){
-        map_data.start_y = map_data.end_y - SCREEN_HEIGHT;
     }
 }
 

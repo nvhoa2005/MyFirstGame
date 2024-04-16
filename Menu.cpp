@@ -38,7 +38,7 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
     SDL_Event event;
     while(true){
         SDL_RenderClear(des);
-        Base::Render(des, NULL);
+        Base::Render(des);
         menuText[0].RenderText(font, des, 200, 390);
         menuText[1].RenderText(font, des, 50, 150);
         menuText[2].RenderText(font, des, 200, 450);
@@ -128,7 +128,7 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
     SDL_Event event;
     while(true){
         SDL_RenderClear(des);
-        Base::Render(des, NULL);
+        Base::Render(des);
         menuText[0].RenderText(font, des, 200, 400);
         menuText[1].RenderText(font, des, 200, 460);
         menuText[2].RenderText(font, des, 200, 520);
@@ -240,7 +240,7 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
     SDL_Event event;
     while(true){
         SDL_RenderClear(des);
-        Base::Render(des, NULL);
+        Base::Render(des);
         menuText[0].RenderText(font, des, 200, 400);
         menuText[1].RenderText(font, des, 200, 470);
         menuText[2].RenderText(font, des, 200, 540);
@@ -353,7 +353,7 @@ int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chu
     SDL_Event event;
     while(true){
         SDL_RenderClear(des);
-        Base::Render(des, NULL);
+        Base::Render(des);
         menuChar[0].RenderText(font, des, 300, 100);
         menuChar[1].RenderText(font, des, 300, 200);
         menuChar[2].RenderText(font, des, 300, 300);

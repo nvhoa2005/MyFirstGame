@@ -14,24 +14,16 @@ public:
 
     void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 
-    int GetWidth() const{
-        return width;
-    }
-    int GetHeight() const{
-        return height;
-    }
-    void SetText(const string &text){
-        str_add = text;
+    void SetText(const string &str){
+        text = str;
     }
     string GetText() const{
-        return str_add;
+        return text;
     }
 private:
-    string str_add;
+    string text;
     SDL_Color colorText;
     SDL_Texture* texture;
-    int width;
-    int height;
 };
 
 

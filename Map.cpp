@@ -5,31 +5,19 @@ void GameMap::LoadMap(string &name){
         cerr << "Cannot open file: " << name << endl;
         return;
     }
+    gameMap.start_x = 0;
+    gameMap.start_y = 0;
 
-    gameMap.max_x = 0;
-    gameMap.max_y = 0;
+    gameMap.end_x = MAX_MAP_X * SQUARE_SIZE;
+    gameMap.end_y = MAX_MAP_Y * SQUARE_SIZE;
 
-    for(int i = 0; i < MAXMAPY; i++){
-        for(int j = 0; j < MAXMAPX; j++){
+    for(int i = 0; i < MAX_MAP_Y; i++){
+        for(int j = 0; j < MAX_MAP_X; j++){
             int val;
             file >> val;
             gameMap.square[i][j] = val;
-            if(val > 0){
-                if(j > gameMap.max_x){
-                    gameMap.max_x = j;
-                }
-                if(i > gameMap.max_y){
-                    gameMap.max_y = i;
-                }
-            }
         }
     }
-
-    gameMap.max_x = (gameMap.max_x + 1)*SQUARE_SIZE;
-    gameMap.max_y = (gameMap.max_y + 1)*SQUARE_SIZE;
-
-    gameMap.start_x = 0;
-    gameMap.start_y = 0;
 
     gameMap.file_name = name;
     file.close();
