@@ -12,6 +12,8 @@ Base::~Base(){
 }
 
 bool Base::Load_image(string path, SDL_Renderer* screen){
+    Free();
+
     SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", path.c_str());
     SDL_Texture* texture = NULL;
     SDL_Surface* load_surface = IMG_Load(path.c_str());

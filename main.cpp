@@ -9,25 +9,25 @@ Base g_background;
 bool InitData(){
     bool success = true;
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "SDL_Init", SDL_GetError);
+        g_background.logErrorAndExit("SDL_Init", SDL_GetError());
         return false;
     }
 
     g_window = SDL_CreateWindow("FLAPPY BIRD", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
     if(g_window == NULL){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "CreateWindow", SDL_GetError);
+        g_background.logErrorAndExit("CreateWindow", SDL_GetError());
         success = false;
     }
     else{
         g_screen = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
         if(g_screen == NULL){
-            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "CreateRenderer", SDL_GetError);
+            g_background.logErrorAndExit("CreateRenderer", SDL_GetError());
             success = false;
         }
         else{
             if (!IMG_Init(IMG_INIT_PNG || IMG_INIT_JPG)){
-                SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s", "SDL_image error:", IMG_GetError);
+                g_background.logErrorAndExit("SDL_image error:", IMG_GetError());
                 success = false;
             }
         }
@@ -36,26 +36,26 @@ bool InitData(){
     SDL_RenderSetLogicalSize(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     if(TTF_Init() == -1){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
-                     "SDL_TTF could not initialize! SDL_TTF Error: ", TTF_GetError);
+        g_background.logErrorAndExit(
+                     "SDL_TTF could not initialize! SDL_TTF Error: ", TTF_GetError());
         success = false;
     }
     font = TTF_OpenFont("font//pixel.ttf", 25);
     if(font == NULL){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
-                     "Could not open font ! SDL_TTF Error: ", TTF_GetError);
+        g_background.logErrorAndExit(
+                     "Could not open font ! SDL_TTF Error: ", TTF_GetError());
         success = false;
     }
     menu = TTF_OpenFont("font//pixel.ttf", 45);
     if(menu == NULL){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
-                     "Could not open font ! SDL_TTF Error: ", TTF_GetError);
+        g_background.logErrorAndExit(
+                     "Could not open font ! SDL_TTF Error: ", TTF_GetError());
         success = false;
     }
 
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ) {
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "%s: %s",
-                     "SDL_MIXER could not initialize! SDL_MIXER Error: ", Mix_GetError);
+        g_background.logErrorAndExit(
+                     "SDL_MIXER could not initialize! SDL_MIXER Error: ", Mix_GetError());
         return false;
     }
 
@@ -67,7 +67,7 @@ bool InitData(){
 
     for(int i = 0; i < MAX_SOUND; i++){
         if(g_sound[i] == NULL){
-            SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+            g_background.logErrorAndExit(
                        "Could not load sound! SDL_mixer Error: %s", Mix_GetError());
             return false;
         }
@@ -75,15 +75,15 @@ bool InitData(){
     
     g_music = Mix_LoadMUS("sound//Nhacnen.mp3");
     if (g_music == nullptr) {
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
+        g_background.logErrorAndExit(
                         "Could not load music! SDL_mixer Error: %s", Mix_GetError());
         return false;
     }
 
     bool load = g_background.Load_image("img//background.jpg", g_screen);
     if(load == false){
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR,
-                           "Could not load g_background! SDL_Image Error: %s", IMG_GetError());
+        g_background.logErrorAndExit(
+                        "Could not load g_background! SDL_Image Error: %s", IMG_GetError());
         return false;
     }
     return success;

@@ -12,6 +12,8 @@ Text::~Text(){
 
 void Text::RenderText(TTF_Font* font, SDL_Renderer* screen, int x, int y)
 {
+    Free();
+    
     SDL_Surface* text_surface = TTF_RenderText_Solid(font, text.c_str(), colorText);
     if(text_surface == nullptr){
         SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_ERROR, "Render text surface %s", TTF_GetError());

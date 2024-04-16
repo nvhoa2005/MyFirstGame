@@ -97,11 +97,11 @@ void Player::Show(SDL_Renderer* des, int n){
     rect.x = x_now - map_x;
     rect.y = y_now - map_y;
 
-    SDL_Rect* current_clip = &frameMove[frame];
+    SDL_Rect* current_frame = &frameMove[frame];
 
     SDL_Rect dest = {rect.x, rect.y, width_frame, height_frame};
 
-    SDL_RenderCopy(des, object, current_clip, &dest);
+    SDL_RenderCopy(des, object, current_frame, &dest);
 }
 
 void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound){

@@ -16,6 +16,8 @@ bool ShowMenu::CheckMouse(const int &x, const int &y, const int& a, const int&b)
 }
 
 int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk* sound){
+    Base::Free();
+    
     bool load = Base::Load_image(path, des);
     if(load == false){
         cerr << "Could not open ShowHowToPlay" << endl;
@@ -98,10 +100,12 @@ int ShowMenu::showHowToPlay(SDL_Renderer* des, TTF_Font* font, string path, Mix_
     for(int i = 0; i < MENU; i++){
         menuText[i].Free();
     }
+    SDL_DestroyRenderer(des);
     return START_GAME;
 }
 
 int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk *sound){
+    Base::Free();
     bool load = Base::Load_image(path, des);
     if(load == false){
         cerr << "Could not open ShowMenu" << endl;
@@ -196,9 +200,11 @@ int ShowMenu::showMenu(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk
     for(int i = 0; i < MENU; i++){
         menuText[i].Free();
     }
+    SDL_DestroyRenderer(des);
     return START_GAME;
 }
 int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, Player p_player, Mix_Chunk* sound){
+    Base::Free();
     bool load = Base::Load_image(path, des);
     if(load == false){
         cerr << "Could not open ShowMenuGameOver" << endl;
@@ -305,9 +311,11 @@ int ShowMenu::showMenuGameOver(SDL_Renderer* des, TTF_Font* font, string path, P
     for(int i = 0; i < MENU; i++){
         menuText[i].Free();
     }
+    SDL_DestroyRenderer(des);
     return START_GAME;
 }
 int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk* sound){
+    Base::Free();
     bool load = Base::Load_image(path, des);
     if(load == false){
         cerr << "Could not open ChooseChar" << endl;
@@ -435,5 +443,6 @@ int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chu
     for(int i = 0; i < MENU_CHAR; i++){
         menuChar[i].Free();
     }
+    SDL_DestroyRenderer(des);
     return CHAR_1;
 }
