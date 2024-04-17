@@ -4,13 +4,6 @@
 #include "Defs.h"
 #include "Base.h"
 #include "Map.h"
-
-#define GRAVITY_SPEED 2
-#define MAX_FALL_SPEED 15
-#define PLAYER_SPEED 0.00003
-#define MAX_PLAYER_SPEED 6
-#define PLAYER_JUMP_VAL 13
-
 class Player : public Base
 {
 public:

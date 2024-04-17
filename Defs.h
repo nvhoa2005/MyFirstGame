@@ -43,6 +43,12 @@ const int HEIGHT_TEXT = 40;
 #define CHAR_3 3
 #define CHAR_4 4
 
+#define GRAVITY_SPEED 2
+#define MAX_FALL_SPEED 15
+#define PLAYER_SPEED 0.00003
+#define MAX_PLAYER_SPEED 6
+#define PLAYER_JUMP_VAL 13
+
 #define PLAY_AGAIN 0
 #define START_GAME 0
 #define CONTINUE 0

@@ -181,6 +181,7 @@ int main(int argc, char* argv[])
             player.Input(g_event, g_screen, g_sound[3], pause_game);
         }
         if(pause_game == true){
+            Mix_ResumeMusic();
             int game_paused = show_menu.menuPaused(g_screen, menu, "img//backgroundgamepaused.jpg", g_sound[4], pause_game);
             if(game_paused == EXIT_GAME){
                 is_quit = true;
