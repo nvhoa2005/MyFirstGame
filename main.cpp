@@ -117,7 +117,6 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     if(InitData() == false){
-        cerr << "INIT_ERROR" << endl;
         return -1;
     }
 
@@ -126,14 +125,13 @@ int main(int argc, char* argv[])
     game_map.LoadMap(path);
     game_map.LoadSquare(g_screen);
 
-    Player player;
-
     Text point_game;
     point_game.SetColor(225, 225, 225);
 
     ShowMenu show_menu;
+    Player player;
     bool is_quit = false;
-    int choose_char = 0;;
+    int choose_char = 0;
     Mix_PlayMusic(g_music, -1);
     int choose_menu = show_menu.showMenu(g_screen, menu, "img//backgroundstart.jpg", g_sound[4]);
     if(choose_menu == EXIT_GAME){
@@ -166,6 +164,7 @@ int main(int argc, char* argv[])
         }
     }
     bool check = player.get_game_over();
+    bool win_game = false;
     bool pause_game = false;
     bool continue_game = false;
     while(!is_quit){
@@ -197,8 +196,46 @@ int main(int argc, char* argv[])
         Map map_data = game_map.getMap();
 
         player.SetMap(map_data.start_x, map_data.start_y);
-        player.WhileJump(map_data, g_sound);
+        player.WhileJump(map_data, g_sound, win_game);
         player.Show(g_screen, choose_char);
+
+        if(win_game == true){
+            int menu_win_game = show_menu.menuWinGame(g_screen, menu, "img//backgroundyouwin.jpg", g_sound[4], win_game);
+            if(menu_win_game == EXIT_GAME){
+                is_quit = true;
+                close();
+                return 0;
+            }
+            else if(menu_win_game == CHOOSE_CHAR){
+                player.reset();
+                choose_char = show_menu.chooseChar(g_screen, menu, "img//backgroundchoosechar.jpg", g_sound[4]);
+                if(choose_char == CHAR_1){
+                    player.Load_image("img//mainbird1.png", g_screen, choose_char);
+                    player.SetClips(CHAR_1);
+                }
+                else if(choose_char == CHAR_2){
+                    player.Load_image("img//mainbird2.png", g_screen, choose_char);
+                    player.SetClips(CHAR_2);
+                }
+                else if(choose_char == CHAR_3){
+                    player.Load_image("img//mainbird3.png", g_screen, choose_char);
+                    player.SetClips(CHAR_3);
+                }
+                else if(choose_char == CHAR_4){
+                    player.Load_image("img//mainbird4.png", g_screen, choose_char);
+                    player.SetClips(CHAR_4);
+                }
+                else{
+                    Mix_CloseAudio();
+                    cout << "EXIT" << endl;
+                    is_quit = true;
+                }
+            }
+            else{
+                player.reset();
+                continue;
+            }
+        }
 
         game_map.SetMap(map_data);
         game_map.DrawMap(g_screen);

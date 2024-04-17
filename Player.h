@@ -16,8 +16,8 @@ public:
     void SetClips(int n);
 
     void MoveMap(Map& map_data);
-    void WhileJump(Map& map_data, Mix_Chunk* sound[]);
-    void CheckMap(Map& map_data, Mix_Chunk* sound[]);
+    void WhileJump(Map& map_data, Mix_Chunk* sound[], bool&);
+    void CheckMap(Map& map_data, Mix_Chunk* sound[], bool&);
     void SetMap(const int x, const int y){
         map_x = x; map_y = y;
     }

@@ -14,6 +14,7 @@ public:
     int showMenuGameOver(SDL_Renderer*, TTF_Font*, string, Player, Mix_Chunk*);
     int chooseChar(SDL_Renderer*, TTF_Font*, string, Mix_Chunk*);
     int menuPaused(SDL_Renderer*, TTF_Font*, string, Mix_Chunk*, bool&);
+    int menuWinGame(SDL_Renderer*, TTF_Font*, string, Mix_Chunk*, bool&);
 };
 
 #endif // _MENU__

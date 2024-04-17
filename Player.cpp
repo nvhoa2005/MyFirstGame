@@ -119,7 +119,7 @@ void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound, boo
     }
 }
 
-void Player::WhileJump(Map& map_data, Mix_Chunk* sound[]){
+void Player::WhileJump(Map& map_data, Mix_Chunk* sound[], bool& win){
 
     x_add = 0;
     y_add += GRAVITY_SPEED;
@@ -136,7 +136,7 @@ void Player::WhileJump(Map& map_data, Mix_Chunk* sound[]){
         }
     }
 
-    CheckMap(map_data, sound);
+    CheckMap(map_data, sound, win);
     MoveMap(map_data);
 }
 
@@ -151,7 +151,7 @@ void Player::MoveMap(Map& map_data)
     }
 }
 
-void Player::CheckMap(Map& map_data, Mix_Chunk* sound[])
+void Player::CheckMap(Map& map_data, Mix_Chunk* sound[], bool& win)
 {
     int x1 = 0;
     int x2 = 0;
@@ -194,4 +194,8 @@ void Player::CheckMap(Map& map_data, Mix_Chunk* sound[])
 
     x_now += x_add;
     y_now += y_add;
+
+    if(x_now >= MAX_MAP_X*SQUARE_SIZE){
+        win = true;
+    }
 }
