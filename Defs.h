@@ -45,6 +45,7 @@ const int HEIGHT_TEXT = 40;
 
 #define PLAY_AGAIN 0
 #define START_GAME 0
+#define CONTINUE 0
 #define CHOOSE_CHAR 1
 #define EXIT_GAME 5
 

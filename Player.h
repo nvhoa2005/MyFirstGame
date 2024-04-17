@@ -19,7 +19,7 @@ public:
 
     bool Load_image(string path, SDL_Renderer* screen, int n);
     void Show(SDL_Renderer* des, int n);
-    void Input(SDL_Event, SDL_Renderer*, Mix_Chunk*);
+    void Input(SDL_Event, SDL_Renderer*, Mix_Chunk*, bool&);
     void SetClips(int n);
 
     void MoveMap(Map& map_data);

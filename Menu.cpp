@@ -446,3 +446,89 @@ int ShowMenu::chooseChar(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chu
     SDL_DestroyRenderer(des);
     return CHAR_1;
 }
+int ShowMenu::menuPaused(SDL_Renderer* des, TTF_Font* font, string path, Mix_Chunk* sound, bool &pause){
+    Base::Free();
+    bool load = Base::Load_image(path, des);
+    if(load == false){
+        cerr << "Could not open ShowMenuPaused" << endl;
+        return EXIT_GAME;
+    }
+
+    Text menuText[MENU];
+    string s1 = "CONTINUE";
+    string s2 = "EXIT";
+    menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuText[0].SetText(s1);
+    menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+    menuText[1].SetText(s2);
+    bool check[MENU] = {0, 0};
+    int x = 0, y = 0;
+
+    SDL_Event event;
+    while(true){
+        SDL_RenderClear(des);
+        Base::Render(des);
+        menuText[0].RenderText(font, des, 400, 220);
+        menuText[1].RenderText(font, des, 450, 440);
+
+        while(SDL_PollEvent(&event)){
+            switch(event.type){
+                case SDL_QUIT:
+                    return EXIT_GAME;
+                case SDL_MOUSEMOTION:
+                    x = event.motion.x;
+                    y = event.motion.y;
+
+                    if(CheckMouse(x, y, 400, 220)){
+                        check[0] = true;
+                        menuText[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                    }
+                    else{
+                        check[0] = false;
+                        menuText[0].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+
+                    if(CheckMouse(x, y, 450, 440)){
+                        check[1] = true;
+                        menuText[1].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+                    }
+                    else{
+                        check[1] = false;
+                        menuText[1].SetColor(MAX_COLOR, MAX_COLOR, MAX_COLOR);
+                    }
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    {
+                        Mix_PlayChannel( -1, sound, 0 );
+                        x = event.button.x;
+                        y = event.button.y;
+
+                        if(CheckMouse(x, y, 400, 220)){
+                            pause = false;
+                            return CONTINUE;
+                        }
+                        if(CheckMouse(x, y, 450, 440)){
+                            return EXIT_GAME;
+                        }
+                    }
+                    break;
+                case SDL_KEYDOWN:
+                    if(event.key.keysym.sym == SDLK_ESCAPE){
+                        return EXIT_GAME;
+                    }
+                    else if(event.key.keysym.sym == SDLK_SPACE){
+                        return PLAY_AGAIN;
+                    }
+                default:
+                    break;
+            }
+
+        }
+        SDL_RenderPresent(des);
+    }
+    for(int i = 0; i < MENU-1; i++){
+        menuText[i].Free();
+    }
+    SDL_DestroyRenderer(des);
+    return START_GAME;
+}

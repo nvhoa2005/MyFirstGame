@@ -83,7 +83,7 @@ bool InitData(){
     bool load = g_background.Load_image("img//background.jpg", g_screen);
     if(load == false){
         g_background.logErrorAndExit(
-                        "Could not load g_background! SDL_Image Error: %s", IMG_GetError());
+                           "Could not load g_background! SDL_Image Error: %s", IMG_GetError());
         return false;
     }
     return success;
@@ -166,6 +166,8 @@ int main(int argc, char* argv[])
         }
     }
     bool check = player.get_game_over();
+    bool pause_game = false;
+    bool continue_game = false;
     while(!is_quit){
         int time = SDL_GetTicks();
         Mix_PauseMusic();
@@ -176,7 +178,16 @@ int main(int argc, char* argv[])
                 return 0;
             }
 
-            player.Input(g_event, g_screen, g_sound[3]);
+            player.Input(g_event, g_screen, g_sound[3], pause_game);
+        }
+        if(pause_game == true){
+            int game_paused = show_menu.menuPaused(g_screen, menu, "img//backgroundgamepaused.jpg", g_sound[4], pause_game);
+            if(game_paused == EXIT_GAME){
+                is_quit = true;
+                close();
+                return 0;
+            }
+            else continue_game = true;
         }
         SDL_SetRenderDrawColor(g_screen, MAX_COLOR, MAX_COLOR, MAX_COLOR, MAX_COLOR);
         SDL_RenderClear(g_screen);
@@ -199,6 +210,23 @@ int main(int argc, char* argv[])
         point_game.RenderText(font, g_screen, 60, 15);
 
         SDL_RenderPresent(g_screen);
+        if(continue_game){
+            Mix_ResumeMusic();
+            Text count_down[4];
+            for(int i = 3; i >= 1; i--){
+                count_down[i].SetColor(MAX_COLOR, MAX_COLOR, MIN_COLOR);
+                count_down[i].SetText(to_string(i));
+                count_down[i].RenderText(menu, g_screen, 1000-100*i, 100);
+                SDL_RenderPresent(g_screen);
+                SDL_Delay(700);
+            }
+            count_down[0].SetColor(MAX_COLOR, MIN_COLOR, MIN_COLOR);
+            count_down[0].SetText("CONTINUE");
+            count_down[0].RenderText(menu, g_screen, 800, 200);
+            SDL_RenderPresent(g_screen);
+            SDL_Delay(500);
+            continue_game = false;
+        }
 
         check = player.get_game_over();
         if(check == true){
@@ -254,6 +282,7 @@ int main(int argc, char* argv[])
             int delay_time = one_frame_time - one_loop_time;
             SDL_Delay(delay_time);
         }
+
     }
     close();
     return 0;

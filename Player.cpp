@@ -104,11 +104,14 @@ void Player::Show(SDL_Renderer* des, int n){
     SDL_RenderCopy(des, object, current_frame, &dest);
 }
 
-void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound){
+void Player::Input(SDL_Event events, SDL_Renderer* screen, Mix_Chunk *sound, bool &pause){
     if(events.type == SDL_KEYDOWN){
         if(events.key.keysym.sym == SDLK_SPACE || events.key.keysym.sym == SDLK_UP){
             jump = 1;
             Mix_PlayChannel( -1, sound, 0 );
+        }
+        if(events.key.keysym.sym == SDLK_ESCAPE){
+            pause = true;
         }
     }
     else if(events.type == SDL_KEYUP){
